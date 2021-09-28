@@ -1,7 +1,3 @@
-#
-# Credits to Mark Huge for https://github.com/markhuge/dockerfiles
-#          & Nick Lang for https://github.com/fxdgear/alpine-neovim
-#
 FROM iocanel/gosu:latest
 
 MAINTAINER Ioannis Canellos <iocanel@gmail.com>

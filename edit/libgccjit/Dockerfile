@@ -1,4 +1,3 @@
-#This is a copy from: libray/python:3.6-alpine with just a different base image
 FROM iocanel/base-devel:latest
 
 MAINTAINER Ioannis Canellos <iocanel@gmail.com>

@@ -1,7 +1,7 @@
 # Desktop dockerfiles
 
 This repository contains docker images, and usage scripts for desktop application that I am using.
-All images are using alpine as a base and are running as a non-root user, that can be specified at build time.
+All images are using archlinux as a base and are running as a non-root user, that can be specified at build time.
 
 ## Vision / Motivation
 
