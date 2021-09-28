@@ -3,14 +3,11 @@ FROM iocanel/gosu:latest
 
 MAINTAINER Ioannis Canellos <iocanel@gmail.com>
 
-RUN apk update && apk add --no-cache --virtual .fetch-deps git
-RUN apk add --no-cache emacs-x11
-RUN git clone https://github.com/syl20bnr/spacemacs /home/$LOCAL_USER_NAME/.emacs.d
-RUN apk del .fetch-deps
+RUN pacman -Sy --noconfirm git emacs
 
 RUN mkdir -p /usr/local/share
 COPY files /usr/local/share/spacemacs
-
+RUN git clone https://github.com/syl20bnr/spacemacs /usr/local/share/spacemacs/.emacs.d
 COPY entrypoint.sh /usr/local/bin/copy-emacsfiles-and-start.sh
 
 ENTRYPOINT ["adduser-and-run.sh", "copy-emacsfiles-and-start.sh"]

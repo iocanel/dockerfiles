@@ -24,5 +24,6 @@ docker run -it -v ~/.config/vdirsyncer:/home/$USERNAME/.config/vdirsyncer \
 	      -v ~/.calendar:/home/$USERNAME/.calendar \
 	      -v ~/.contacts:/home/$USERNAME/.contacts \
 	      -v ~/.vdirsyncer:/home/$USERNAME/.vdirsyncer \
+              -v /var/run/user/$(id -u)/:/var/run/user/$(id -u)/:ro \
               --entrypoint adduser-and-run.sh $REPOSITORY/vdirsyncer:$VERSION /bin/sh
 

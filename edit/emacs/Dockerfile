@@ -1,8 +1,12 @@
 #This is a copy from: libray/python:3.6-alpine with just a different base image
-FROM iocanel/pass:latest
+FROM iocanel/base-devel:latest
 
 MAINTAINER Ioannis Canellos <iocanel@gmail.com>
 
-RUN apk update && apk add emacs-x11
+RUN pacman -Sy --noconfirm gtk3 alsa-lib ttf-dejavu ttf-font-awesome adobe-source-code-pro-fonts
+RUN cd /home/builder && \
+git clone https://aur.archlinux.org/emacs27-git.git && \
+cd emacs27-git && \
+rmakepkg -si --noconfirm
 
 ENTRYPOINT ["adduser-and-run.sh", "emacs"]

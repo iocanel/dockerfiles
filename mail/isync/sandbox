@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# This command optionall accepts the following arguments:
+# -repository:	The docker repository
+# -user:	The user under which the container is run (should match the one specified on build).
+# -version:	The version of the image.
+# 
+# If you want to use these options you need to install `readopt` and `fitleropts`. 
+# They can be found in the shell module and can be installed using `make helpers_install`.
+#
+S=`readopt -sandbox-id "$@" 2> /dev/null`
+R=`readopt -repository "$@" 2> /dev/null`
+U=`readopt -user "$@" 2> /dev/null`
+V=`readopt -version "$@" 2> /dev/null`
+ARGS=`filteropts 4 -user -version -repository -sandbox-id "$@" 2> /dev/null`
+
+REPOSITORY=${R:-"iocanel"}
+USERNAME=${U:-"iocanel"}
+VERSION=${V:-"latest"}
+SANDBOX_ID=${S:-"iocanel"}
+
+if [ ! -d ~/.sandbox/$SANDBOX_ID ]; then mkdir -p ~/.sandbox/$SANDBOX_ID; fi
+
+docker run \
+	   -v ~/Downloads:/home/$USERNAME/Downloads \
+	   -v ~/Documents:/home/$USERNAME/Documents \
+	   -v ~/.mail:/home/$USERNAME/.mail \
+	   -v ~/.gnupg:/home/$USERNAME/.gnupg \
+	   -v ~/.password-store:/home/$USERNAME/.password-store \
+	   -v ~/.sandbox/$SANDBOX_ID/.config:/home/$USERNAME/.config \
+	   -v ~/.sandbox/$SANDBOX_ID/.cache:/home/$USERNAME/.cache \
+	   -v ~/.sandbox/$SANDBOX_ID/.local/share:/home/$USERNAME/.local/share \
+	   -v /var/run/user/$(id -u)/:/var/run/user/$(id -u)/:ro \
+	   --net=host \
+	   --cpuset-cpus 0 \
+	   --memory 512mb \
+           $REPOSITORY/isync:$VERSION -c /home/$USERNAME/.config/mbsync/config $ARGS

@@ -21,4 +21,5 @@ ARGS=${A:-"$@"}
 docker run -i -v ~/.notmuch-config:/home/$USERNAME/.notmuch-config \
               -v ~/.gnupg:/home/$USERNAME/.gnupg \
 	      -v ~/Mail:/home/$USERNAME/Mail \
+              -v /var/run/user/$(id -u)/:/var/run/user/$(id -u)/:ro \
               $REPOSITORY/notmuch:$VERSION $ARGS

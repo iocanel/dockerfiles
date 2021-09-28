@@ -26,6 +26,7 @@ docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix \
 	   -e SHELL=$SHELL \
 	   --net=host \
 	   --device /dev/snd \
+	   -v ~/:/home/$USERNAME \
 	   -v /dev/shm/:/dev/shm/ \
 	   -v /var/run:/var/run/ \
 	   --privileged \

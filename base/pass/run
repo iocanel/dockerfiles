@@ -18,4 +18,8 @@ USERNAME=${U:-"iocanel"}
 VERSION=${V:-"latest"}
 ARGS=${A:-"$@"}
 
-docker run -v ~/.password-store:/home/$USERNAME/.password-store -v ~/.gnupg:/home/$USERNAME/.gnupg  $REPOSITORY/pass:$VERSION $ARGS
+docker run  \
+	-v ~/.password-store:/home/$USERNAME/.password-store \
+	-v ~/.gnupg:/home/$USERNAME/.gnupg \
+	-v /var/run/user/$(id -u)/:/var/run/user/$(id -u)/:ro \
+	$REPOSITORY/pass:$VERSION $ARGS

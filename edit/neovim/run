@@ -18,4 +18,6 @@ USERNAME=${U:-"iocanel"}
 VERSION=${V:-"latest"}
 ARGS=${A:-"$@"}
 
-docker run -it -v ~/:/home/$USERNAME $REPOSITORY/neovim:$VERSION $ARGS
+docker run -it -v ~/:/home/$USERNAME \
+	          -w=/home/$USERNAME \
+		  $REPOSITORY/neovim:$VERSION $ARGS

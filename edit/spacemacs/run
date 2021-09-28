@@ -8,6 +8,7 @@
 # If you want to use these options you need to install `readopt` and `fitleropts`. 
 # They can be found in the shell module and can be installed using `make helpers_install`.
 #
+S=`readopt -sandbox-id "$@" 2> /dev/null`
 R=`readopt -repository "$@" 2> /dev/null`
 U=`readopt -user "$@" 2> /dev/null`
 V=`readopt -version "$@" 2> /dev/null`
@@ -17,9 +18,14 @@ REPOSITORY=${R:-"iocanel"}
 USERNAME=${U:-"iocanel"}
 VERSION=${V:-"latest"}
 ARGS=${A:-"$@"}
+TMP_DIR=`mktemp -d /tmp/tmp.spacemacs.XXXX`
 
-docker run -it -v ~/:/home/$USERNAME \
+xhost local:root
+docker run -it \
+           -w=/home/$USERNAME \
 	   -v /tmp/.X11-unix:/tmp/.X11-unix \
            -e DISPLAY=$DISPLAY \
+	   -v /dev/shm/:/dev/shm/ \
+           -v /var/run:/var/run/ \
+	   --privileged \
            $REPOSITORY/spacemacs:$VERSION $ARGS
-

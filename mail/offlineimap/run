@@ -24,4 +24,5 @@ docker run -i -v ~/.config/offlineimap:/home/$USERNAME/.config/offlineimap \
 	      -v ~/.offlineimaprc:/home/$USERNAME/.offlineimaprc \
 	      -v ~/Mail:/home/$USERNAME/Mail \
 	      -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt \
+              -v /var/run/user/$(id -u)/:/var/run/user/$(id -u)/:ro \
               $REPOSITORY/offlineimap:$VERSION $ARGS

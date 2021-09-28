@@ -22,5 +22,6 @@ ARGS=${A:-"$@"}
 docker run -it -v ~/.mutt:/home/$USERNAME/.mutt \
               -v ~/.gnupg:/home/$USERNAME/.gnupg \
 	      -v ~/Mail:/home/$USERNAME/Mail \
+              -v /var/run/user/$(id -u)/:/var/run/user/$(id -u)/:ro \
               --entrypoint adduser-and-run.sh $REPOSITORY/neomutt:$VERSION /bin/sh
 

@@ -3,7 +3,7 @@ FROM iocanel/gosu:latest
 
 MAINTAINER Ioannis Canellos <iocanel@gmail.com>
 
-RUN apk update && apk add vim
+RUN pacman -Sy --noconfirm vim
 
 RUN mkdir -p /usr/local/share
 COPY files /usr/local/share/vim

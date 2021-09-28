@@ -18,5 +18,9 @@ USERNAME=${U:-"iocanel"}
 VERSION=${V:-"latest"}
 ARGS=${A:-"$@"}
 
-docker run -it -v ~/.password-store:/home/$USERNAME/.password-store -v ~/.gnupg:/home/$USERNAME/.gnupg --entrypoint adduser-and-run.sh  $REPOSITORY/pass:$VERSION  /bin/sh
+docker run -it \
+	    -v ~/.password-store:/home/$USERNAME/.password-store \
+            -v ~/.gnupg:/home/$USERNAME/.gnupg \
+	    -v /var/run/user/$(id -u)/:/var/run/user/$(id -u)/:ro \
+            --entrypoint adduser-and-run.sh  $REPOSITORY/pass:$VERSION  /bin/sh
 

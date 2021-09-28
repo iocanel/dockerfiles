@@ -11,14 +11,12 @@
 R=`readopt -repository "$@" 2> /dev/null`
 U=`readopt -user "$@" 2> /dev/null`
 V=`readopt -version "$@" 2> /dev/null`
-A=`filteropts 3 -user -version -repository "$@" 2> /dev/null`
 
 REPOSITORY=${R:-"iocanel"}
 USERNAME=${U:-"iocanel"}
 VERSION=${V:-"latest"}
-ARGS=${A:-"$@"}
+ARGS=`filteropts 3 -user -version -repository "$@" 2> /dev/null`
 
 docker run -it -v ~/.gnupg:/home/$USERNAME/.gnupg \
+	       -v /var/run/user/1000:/var/run/user/1000 \
 		$REPOSITORY/gpg-agent:$VERSION /bin/sh
-
-

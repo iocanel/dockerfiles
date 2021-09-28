@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# This command optionall accepts the following arguments:
+# -repository:	The docker repository
+# -user:	The user under which the container is run (should match the one specified on build).
+# -version:	The version of the image.
+# 
+# If you want to use these options you need to install `readopt` and `fitleropts`. 
+# They can be found in the shell module and can be installed using `make helpers_install`.
+#
+
+function absolutize() {
+    next=false
+    for var in "$@"; do
+        if [ -f $var ]; then
+            realpath $var
+        else
+            echo "$var"
+        fi
+    done
+}
+
+R=`readopt -repository "$@" 2> /dev/null`
+U=`readopt -user "$@" 2> /dev/null`
+V=`readopt -version "$@" 2> /dev/null`
+RELATIVE_ARGS=`filteropts 3 -user -version -repository "$@" 2> /dev/null`
+ARGS=`absolutize $RELATIVE_ARGS`
+
+REPOSITORY=${R:-"iocanel"}
+USERNAME=${U:-"iocanel"}
+VERSION=${V:-"latest"}
+
+xhost local:root
+docker run \
+       -v ~/Downloads:/home/$USERNAME/Downloads \
+       -v ~/Documents:/home/$USERNAME/Documents \
+       -v /dev/:/dev/ \
+       -v /var/run/user/$(id -u)/:/var/run/user/$(id -u)/:ro \
+       -v /var/run/dbus/:/var/run/dbus \
+       -v /tmp/.X11-unix:/tmp/.X11-unix \
+       -e DISPLAY=$DISPLAY \
+       --net=host \
+       --privileged \
+       $REPOSITORY/evince:$VERSION $ARGS

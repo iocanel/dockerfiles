@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM archlinux:latest
 
 MAINTAINER Ioannis Canellos <iocanel@gmail.com>
 
@@ -8,8 +8,9 @@ ARG userid=1000
 ENV LOCAL_USER_NAME=$username
 ENV LOCAL_USER_ID=$userid
 
-RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
-    apk --no-cache --update add gosu libc6-compat
+RUN pacman -Sy --noconfirm git go
+RUN go get github.com/tianon/gosu 
+RUN cp ~/go/bin/gosu /bin/gosu
 
-COPY entrypoint.sh /usr/local/bin/adduser-and-run.sh
+COPY entrypoint.sh /usr/bin/adduser-and-run.sh
 ENTRYPOINT ["adduser-and-run.sh"]

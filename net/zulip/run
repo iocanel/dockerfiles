@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# This command optionall accepts the following arguments:
+# -repository:	The docker repository
+# -user:	The user under which the container is run (should match the one specified on build).
+# -version:	The version of the image.
+# 
+# If you want to use these options you need to install `readopt` and `fitleropts`. 
+# They can be found in the shell module and can be installed using `make helpers_install`.
+#
+R=`readopt -repository "$@" 2> /dev/null`
+U=`readopt -user "$@" 2> /dev/null`
+V=`readopt -version "$@" 2> /dev/null`
+ARGS=`filteropts 3 -user -version -repository "$@" 2> /dev/null`
+REPOSITORY=${R:-"iocanel"}
+USERNAME=${U:-"iocanel"}
+VERSION=${V:-"latest"}
+
+xhost local:root
+docker run \
+       -v ~/Downloads:/home/$USERNAME/Downloads \
+       -v ~/Documents:/home/$USERNAME/Documents \
+       -v ~/.sandbox/$SANDBOX_ID/.config:/home/$USERNAME/.config \
+       -v ~/.sandbox/$SANDBOX_ID/.cache:/home/$USERNAME/.cache \
+       -v ~/.sandbox/$SANDBOX_ID/.local/share:/home/$USERNAME/.local/share \
+       -v /dev/:/dev/ \
+       -v /var/run/user/$(id -u)/:/var/run/user/$(id -u)/:ro \
+       -v /var/run/dbus/:/var/run/dbus \
+       -v /tmp/.X11-unix:/tmp/.X11-unix \
+       -e DISPLAY=$DISPLAY \
+       --net=host \
+       --privileged \
+       $REPOSITORY/zulip:$VERSION $ARGS

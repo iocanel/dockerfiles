@@ -11,20 +11,25 @@
 R=`readopt -repository "$@" 2> /dev/null`
 U=`readopt -user "$@" 2> /dev/null`
 V=`readopt -version "$@" 2> /dev/null`
-A=`filteropts 3 -user -version -repository "$@" 2> /dev/null`
-
+ARGS=`filteropts 3 -user -version -repository "$@" 2> /dev/null`
 REPOSITORY=${R:-"iocanel"}
 USERNAME=${U:-"iocanel"}
 VERSION=${V:-"latest"}
-ARGS=${A:-"$@"}
 
-docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix \
-           -e DISPLAY=$DISPLAY \
-	   --net=host \
-	   --cpuset-cpus 0 \
-	   --memory 512mb \
-	   --device /dev/snd \
-	   -v /dev/shm/:/dev/shm/ \
-	   -v /var/run:/var/run/ \
-	   --privileged \
-           $REPOSITORY/chromium:$VERSION $ARGS
+xhost local:root
+docker run \
+       -v ~/.Xauthority:/home/$USERNAME/.Xauthority \
+       -v ~/Downloads:/home/$USERNAME/Downloads \
+       -v ~/Documents:/home/$USERNAME/Documents \
+       -v ~/.config:/home/$USERNAME/.config \
+       -v ~/.cache:/home/$USERNAME/.cache \
+       -v ~/.local/share:/home/$USERNAME/.local/share \
+       -v /dev/:/dev/ \
+       -v /var/run/user/$(id -u)/:/var/run/user/$(id -u)/:ro \
+       -v /var/run/dbus/:/var/run/dbus \
+       -v /tmp/.X11-unix:/tmp/.X11-unix \
+       -e DISPLAY=$DISPLAY \
+       -e PULSE_SERVER=unix:/run/user/1000/pulse/native \
+       --net=host \
+       --privileged \
+       $REPOSITORY/chromium:$VERSION $ARGS

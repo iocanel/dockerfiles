@@ -1,4 +1,4 @@
-!/bin/sh
+#!/bin/sh
 
 #
 # This command optionall accepts the following arguments:
@@ -19,7 +19,7 @@ USERNAME=${U:-"iocanel"}
 VERSION=${V:-"latest"}
 ARGS=${A:-"$@"}
 
-docker run -it -v ~/:/home/$USERNAME \ 
-	       --entrypoint adduser-and-run.sh  $REPOSITORY/neovim:$VERSION /bin/sh 
-	      
-
+docker run -it -v ~/:/home/$USERNAME \
+           -w=/home/$USERNAME \
+	   --entrypoint adduser-and-run.sh \
+	   $REPOSITORY/neovim:$VERSION /bin/sh 

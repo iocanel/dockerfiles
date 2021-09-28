@@ -17,9 +17,11 @@ REPOSITORY=${R:-"iocanel"}
 USERNAME=${U:-"iocanel"}
 VERSION=${V:-"latest"}
 ARGS=${A:-"$@"}
+TMP_DIR=`mktemp -d /tmp/tmp.spacemacs.XXXX`
 
-docker run -it -v ~/:/home/$USERNAME \
+docker run -it -v -v $TMP_DIR:/home/$USERNAME \
+          -w=/home/$USERNAME \
           -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
           -e DISPLAY=$DISPLAY \
-	   --entrypoint adduser-and-run.sh  $REPOSITORY/spacemacs:$VERSION /bin/sh
+          --entrypoint adduser-and-run.sh  $REPOSITORY/spacemacs:$VERSION /bin/sh
 

@@ -2,6 +2,8 @@ REPOSITORY ?= iocanel
 VERSION ?= latest
 USERNAME ?= iocanel
 
+.PHONY: vim neovim emacs spacemacs
+
 vim:
 	cd vim && make -f Makefile build REPOSITORY=${REPOSITORY} VERSION=${VERSION} USERNAME=${USERNAME}
 

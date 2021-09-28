@@ -19,5 +19,6 @@ VERSION=${V:-"latest"}
 ARGS=${A:-"$@"}
 
 docker run -it -v ~/:/home/$USERNAME \
-	       --entrypoint adduser-and-run.sh  $REPOSITORY/vim:$VERSION /bin/sh
+           -w=/home/$USERNAME \
+           --entrypoint adduser-and-run.sh  $REPOSITORY/vim:$VERSION /bin/sh
 
