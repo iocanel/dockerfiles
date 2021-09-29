@@ -25,6 +25,6 @@ docker run -it -v ~/:/root \
           -e DISPLAY=$DISPLAY \
 	  -e SHELL=$SHELL \
 	  --privileged \
-	  --entrypoint adduser-and-run.sh \
-	  $REPOSITORY/termite:$VERSION /bin/sh
+	  --entrypoint ensure-config-and-run.sh \
+	  $REPOSITORY/alacritty:$VERSION /bin/sh
 

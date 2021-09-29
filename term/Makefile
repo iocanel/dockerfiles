@@ -2,9 +2,9 @@ REPOSITORY ?= iocanel
 VERSION ?= latest
 USERNAME ?= iocanel
 
-.PHONY: termite
+.PHONY: alacritty
 
-termite:
-	cd termite && make -f Makefile build REPOSITORY=${REPOSITORY} VERSION=${VERSION} USERNAME=${USERNAME}
+alacritty:
+	cd alacritty && make -f Makefile build REPOSITORY=${REPOSITORY} VERSION=${VERSION} USERNAME=${USERNAME}
 
-all: termite
+all: alacritty

@@ -1,4 +1,4 @@
-IMAGE := termite
+IMAGE := alacritty
 
 REPOSITORY ?= iocanel
 VERSION ?= latest
