@@ -2,7 +2,7 @@ REPOSITORY ?= iocanel
 VERSION ?= latest
 USERNAME ?= iocanel
 
-.PHONY: gosu gpg-agent pass pavucontrol python 
+.PHONY: gosu gpg-agent pass pavucontrol python pip nodejs npm base-devel
 
 gosu:
 	cd gosu && make -f Makefile build REPOSITORY=${REPOSITORY} VERSION=${VERSION} USERNAME=${USERNAME}
@@ -22,7 +22,13 @@ python: pass
 pip: python
 	cd pip && make -f Makefile build REPOSITORY=${REPOSITORY} VERSION=${VERSION} USERNAME=${USERNAME}
 
+nodejs: pass
+	cd nodejs && make -f Makefile build REPOSITORY=${REPOSITORY} VERSION=${VERSION} USERNAME=${USERNAME}
+
+npm: nodejs
+	cd npm && make -f Makefile build REPOSITORY=${REPOSITORY} VERSION=${VERSION} USERNAME=${USERNAME}
+
 base-devel: pip
 	cd base-devel && make -f Makefile build REPOSITORY=${REPOSITORY} VERSION=${VERSION} USERNAME=${USERNAME}
 
-all: pass python pip pavucontrol base-devel
+all: pip pavucontrol base-devel npm
