@@ -2,7 +2,7 @@ REPOSITORY ?= iocanel
 VERSION ?= latest
 USERNAME ?= iocanel
 
-.PHONY: chromium firefox gitter qutebrowser zulip slack
+.PHONY: chromium firefox gitter qutebrowser zulip slack http-server
 
 chromium:
 	cd chromium && make -f Makefile build REPOSITORY=${REPOSITORY} VERSION=${VERSION} USERNAME=${USERNAME}
@@ -22,4 +22,7 @@ slack:
 zulip:
 	cd zulip && make -f Makefile build REPOSITORY=${REPOSITORY} VERSION=${VERSION} USERNAME=${USERNAME}
 
-all: chromium firefox gitter qutebrowser slack zulip
+http-server:
+	cd http-server && make -f Makefile build REPOSITORY=${REPOSITORY} VERSION=${VERSION} USERNAME=${USERNAME}
+
+all: chromium firefox gitter qutebrowser slack zulip http-server
