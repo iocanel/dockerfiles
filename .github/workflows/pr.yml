@@ -12,12 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # 
-name: Build
+name: Verify pull request
 
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+
 jobs:
   build:
     name: Build 
@@ -26,4 +25,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.4
       - name: Build Project
-        run: make all
+        run: VERSION=pr make all
