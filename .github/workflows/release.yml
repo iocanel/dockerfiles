@@ -34,6 +34,6 @@ jobs:
         env:
           RELEASE_VERSION: ${{ github.event.release.tag_name }}
       - name: Publish images
-        run: docker images | grep "^iocanel" | cut -d " " -f1 | while read repo; do echo "Publishing $repo."; docker tag $repo "docker.io/$repo:${RELEASE_VERSION}"; docker push "docker.io/$repo:$RELEASE_VERSION}"; done
+        run: docker images | grep "^iocanel" | cut -d " " -f1 | while read repo; do echo "Publishing $repo."; docker tag "$repo:${RELEASE_VERSION}" "docker.io/$repo:${RELEASE_VERSION}"; docker push "docker.io/$repo:$RELEASE_VERSION}"; done
         env:
           RELEASE_VERSION: ${{ github.event.release.tag_name }}
