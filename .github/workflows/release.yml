@@ -14,7 +14,7 @@
 # 
 name: Release
 
-n:
+on:
   release:
     types: [ released ]
 jobs:
