@@ -14,7 +14,7 @@
 # 
 name: Release
 
-on:
+n:
   release:
     types: [ released ]
 jobs:
@@ -34,6 +34,13 @@ jobs:
         env:
           RELEASE_VERSION: ${{ github.event.release.tag_name }}
       - name: Publish images
-        run: docker images | grep "^iocanel" | cut -d " " -f1 | while read repo; do echo "Publishing $repo."; docker tag "$repo:${RELEASE_VERSION}" "docker.io/$repo:${RELEASE_VERSION}"; docker push "docker.io/$repo:$RELEASE_VERSION}"; done
+        run: |
+          docker images | grep "^iocanel" | cut -d " " -f1 | while read repo; do
+            echo "Tagging $repo:${RELEASE_VERSION} to docker.io/$repo:${RELEASE_VERSION} ."
+            echo "docker tag $repo:${RELEASE_VERSION} docker.io/$repo:${RELEASE_VERSION}"
+            docker tag $repo:${RELEASE_VERSION} docker.io/$repo:${RELEASE_VERSION}
+            echo "docker push docker.io/$repo:$RELEASE_VERSION}"
+            docker push docker.io/$repo:$RELEASE_VERSION}
+          done
         env:
           RELEASE_VERSION: ${{ github.event.release.tag_name }}
