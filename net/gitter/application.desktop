@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Gitter ({{sandbox_id}})
+Comment=Where developers come to talk
+Exec=/usr/bin/gitter
+Icon=gitter
+Terminal=false
+Type=Application
+Categories=Utility;
+StartupWMClass=gitter-desktop
+X-Desktop-File-Install-Version=0.26
