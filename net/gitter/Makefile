@@ -5,13 +5,17 @@ VERSION ?= latest
 USERNAME ?= iocanel
 
 build: 
-
 	echo "Building ${IMAGE}:${VERSION}"
 	sed -E "s|(FROM [a-zA-Z0-9_\-\/\\-]*:)latest|\1${VERSION}|g" Dockerfile > Dockerfile.${VERSION}
 	docker build --build-arg USERNAME=$USERNAME -f Dockerfile.${VERSION} -t ${REPOSITORY}/${IMAGE}:${VERSION} .
 	rm Dockerfile.${VERSION}
 
-install:
+sandbox-check:
+ifndef SANDBOX_ID
+	$(error SANDBOX_ID is undefined)
+endif
+
+install: sandbox-check
 	mkdir -p ${HOME}/bin
 	mkdir -p ${HOME}/.local/share/applications/
 	mkdir -p ${HOME}/.local/share/icons/hicolor/
