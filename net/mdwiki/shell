@@ -18,7 +18,7 @@ VERSION=${V:-"latest"}
 WIKI_DIR=${W:-"$HOME/wiki"}
 
 docker run -it \
-       -v $WIKI_DIR:/wiki \
+       -v $WIKI_DIR:/home/$USERNAME/wiki \
        --net=host \
        --privileged \
        --entrypoint ensure-config-and-start.sh \
