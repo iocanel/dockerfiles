@@ -20,7 +20,7 @@ WIKI_DIR=${W:-"$HOME/wiki"}
 
 xhost local:root
 docker run \
-       -v $WIKI_DIR:/wiki \
+       -v $WIKI_DIR:/home/$USERNAME/wiki \
        --net=host \
        --privileged \
        $REPOSITORY/mdwiki:$VERSION /wiki $ARGS
