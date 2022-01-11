@@ -4248,6 +4248,51 @@ function googlemapsReady() {
 
 (function($) {
     'use strict';
+    function plantuml($link, opt, text) {
+        var default_options = {
+        };
+        var options = $.extend ({}, default_options, opt);
+
+        return $link.each(function(i,e) {
+
+            var $this = $(e);
+            var url = 'http://www.plantuml.com/plantuml/img/';
+            var data = $this.attr('href');
+            var title = $this.attr('title');
+
+            console.log("data:"+data);
+            title = (title ? title : '');
+
+            $.getScript("./lib/plantuml-encoder.min.js", function ()  {
+            fetch("plantuml.txt").then((r) => {r.text().then((d) => {
+            url += plantumlEncoder.encode(d);
+            console.log(url);
+            var $img = $('<img src="' + url + '" title="' + title + '" alt="' + title + '">');
+            $this.replaceWith($img);
+                console($this);
+            })
+            })
+           });
+        });
+    }
+    var plantumlGimmick = {
+        name: 'plantuml',
+        version: $.md.version,
+        once: function() {
+            $.md.linkGimmick(this, 'plantuml', plantuml);
+            $.md.registerScript(this, '', {
+                license: 'LGPL',
+                loadstage: 'postgimmick',
+                finishstage: 'all_ready'
+            });
+        }
+    };
+    $.md.registerGimmick(plantumlGimmick);
+
+}(jQuery));
+
+(function($) {
+    'use strict';
     function flowchartjs($link, opt, text) {
         var default_options = {
             flowchartjs_version: '1.17.0',  

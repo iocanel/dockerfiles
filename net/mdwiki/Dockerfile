@@ -4,6 +4,7 @@ MAINTAINER Ioannis Canellos <iocanel@gmail.com>
 
 COPY entrypoint.sh /usr/local/bin/ensure-config-and-start.sh
 RUN mkdir -p /usr/local/mdwiki/defaults
+COPY lib /usr/local/mdwiki/lib
 COPY index.html /usr/local/mdwiki/defaults/index.html
 COPY index.md /usr/local/mdwiki/defaults/index.md
 
